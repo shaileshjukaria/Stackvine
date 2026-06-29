@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Don't let search engines index admin panel
+Disallow: /admin
+Disallow: /sv-admin-panel
+Disallow: /api/
+
+Sitemap: https://stackvine.io/sitemap.xml

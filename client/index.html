@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta -->
+    <title>Stackvine — Full Stack & AI Development Studio</title>
+    <meta name="description" content="Stackvine builds MVPs, web apps, and AI integrations for startups and businesses. Based in India, working globally. 4–6 week delivery." />
+    <meta name="keywords" content="full stack development, web development India, MVP development, AI integration, React developer, Node.js, MERN stack" />
+    <meta name="author" content="Stackvine" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://stackvine.io" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stackvine.io" />
+    <meta property="og:title" content="Stackvine — Full Stack & AI Development Studio" />
+    <meta property="og:description" content="We build web products that actually ship. MVPs in 4–6 weeks." />
+    <meta property="og:image" content="https://stackvine.io/og-image.jpg" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:site_name" content="Stackvine" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Stackvine — Full Stack & AI Development Studio" />
+    <meta name="twitter:description" content="We build web products that actually ship." />
+    <meta name="twitter:image" content="https://stackvine.io/og-image.jpg" />
+
+    <!-- PWA & Icons -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#07070D" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Stackvine" />
+
+    <!-- Google Analytics GA4 -->
+    <!-- To activate: set VITE_GA_ID=G-XXXXXXXXXX in client/.env -->
+    <script>
+      (function() {
+        var gaId = '__GA_ID__'; // replaced at build time via index.html template
+        if (!gaId || gaId === '__GA_ID__' || gaId === '') return;
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', gaId, { anonymize_ip: true });
+      })();
+    </script>
+
+    <!-- Structured Data (JSON-LD) for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Stackvine",
+      "url": "https://stackvine.io",
+      "logo": "https://stackvine.io/logo.png",
+      "description": "Full stack development studio specialising in web apps, AI integrations, and MVPs.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN"
+      },
+      "email": "hello@stackvine.io",
+      "sameAs": [],
+      "priceRange": "$$",
+      "openingHours": "Mo-Fr 09:00-18:00"
+    }
+    </script>
+
+    <!-- Preconnect to speed up font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

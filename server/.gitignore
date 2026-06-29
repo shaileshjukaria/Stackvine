@@ -1,0 +1,24 @@
+# ── Environment (secrets) ─────────────────────────────────────
+# Contains: MongoDB Atlas URI, JWT secret, Gmail app password, admin IPs
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# ── Dependencies ──────────────────────────────────────────────
+node_modules/
+
+# ── Logs ──────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ── OS files ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sw?
