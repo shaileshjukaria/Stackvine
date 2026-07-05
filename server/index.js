@@ -8,10 +8,14 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const adminIpGuard = require('./middleware/adminIpGuard');
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
+
+// ── DB Connection Middleware ──────────────────────────────
+// Called per-request in serverless (cached via global in db.js — no overhead)
+app.use(async (req, res, next) => {
+  try { await connectDB(); next(); }
+  catch (err) { next(err); }
+});
 
 // ── Security Headers (Helmet) ─────────────────────────────
 app.use(helmet({
@@ -28,7 +32,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    // Allow requests with no origin (mobile, curl, Postman)
+    if (!origin) return cb(null, true);
+    // Allow explicitly whitelisted origins
+    if (allowedOrigins.includes(origin)) return cb(null, true);
+    // Allow any *.vercel.app subdomain (preview deployments)
+    if (/\.vercel\.app$/.test(origin)) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
   },
   credentials: true,
@@ -88,11 +97,18 @@ app.use('/api/*', (req, res) => res.status(404).json({ error: 'API route not fou
 // Error handler (must be last)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Stackvine server running on http://localhost:${PORT}`);
-  if (process.env.NODE_ENV === 'production') {
-    const ips = process.env.ADMIN_ALLOWED_IPS || 'any';
-    console.log(`🔐 Admin IP whitelist: ${ips}`);
-  }
-});
+// ── Local dev: start server when run directly ─────────────
+// On Vercel: the app is exported below and Vercel calls it as a serverless fn
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Stackvine server running on http://localhost:${PORT}`);
+    if (process.env.NODE_ENV === 'production') {
+      const ips = process.env.ADMIN_ALLOWED_IPS || 'any';
+      console.log(`🔐 Admin IP whitelist: ${ips}`);
+    }
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;

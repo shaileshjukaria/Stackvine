@@ -44,7 +44,7 @@ export default function Footer() {
               <div className="femail">
                 <a href="mailto:hello@stackvine.io" onClick={copyEmail}>hello@stackvine.io</a>
               </div>
-              <p className="floc">📍 India · Working globally</p>
+              <p className="floc">📍Uttarakhand,India · Working globally</p>
               <div className="fsocials">
                 <a href="https://github.com" target="_blank" rel="noopener" className="fsl">GH</a>
                 <a href="https://linkedin.com" target="_blank" rel="noopener" className="fsl">in</a>
@@ -83,7 +83,7 @@ export default function Footer() {
           </div>
 
           <div className="fbot">
-            <span>© {year} Stackvine. All rights reserved.</span>
+            <span>© {year} <a href="https://shaileshjukaria.netlify.app" target="_blank" rel="noopener noreferrer">Shailesh Jukaria</a>. All rights reserved.</span>
             <div className="fbot-right">
               <div className="fmade">Made with <span className="fheart">♥</span> in India</div>
               <a href="#">Privacy</a>

@@ -5,9 +5,9 @@ const LINES = [
   { p: '$', o: null, k: null, v: 'whoami' },
   { p: null, o: 'stackvine', k: null, v: null },
   { p: '$', o: null, k: null, v: 'cat mission.txt' },
-  { p: null, o: null, k: 'mission:', v: ' ship great software' },
-  { p: null, o: null, k: 'founded:', v: ' 2022' },
-  { p: null, o: null, k: 'base:', v: ' India 🇮🇳' },
+  { p: null, o: null, k: 'mission:', v: ' Ship great software' },
+  { p: null, o: null, k: 'founded:', v: ' 2026' },
+  { p: null, o: null, k: 'base:', v: ' India' },
   { p: null, o: null, k: 'status:', v: ' actively building' },
   { p: '$', o: null, k: null, v: '_' },
 ];
