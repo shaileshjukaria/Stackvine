@@ -16,7 +16,6 @@ const services = {
       { icon: '🔒', title: 'Auth & Payments', body: 'User authentication (JWT/OAuth) and payment processing (Razorpay/Stripe) included.' },
     ],
     timeline: '4–6 Weeks',
-    starting: '₹50,000',
     ideal: 'Founders with a validated idea ready to build their first product.',
   },
   'AI Integration': {
@@ -32,7 +31,6 @@ const services = {
       { icon: '🔗', title: 'API Integrations', body: 'OpenAI, Anthropic, Replicate, Stability AI — we\'ve worked with them all.' },
     ],
     timeline: '2–8 Weeks',
-    starting: '₹35,000',
     ideal: 'Products looking to add AI superpowers without rebuilding from scratch.',
   },
   'Full Stack Web Apps': {
@@ -48,7 +46,6 @@ const services = {
       { icon: '🛡️', title: 'Security & Compliance', body: 'OWASP best practices, data encryption, audit logs, and GDPR-ready architecture.' },
     ],
     timeline: '6–16 Weeks',
-    starting: '₹80,000',
     ideal: 'Businesses replacing spreadsheets or legacy systems with modern web apps.',
   },
   'Tech Consultation': {
@@ -64,7 +61,6 @@ const services = {
       { icon: '👥', title: 'Team & Hiring Guidance', body: 'When to hire, what roles to hire first, and how to structure your tech team.' },
     ],
     timeline: '1-hour call',
-    starting: 'Free first call',
     ideal: 'Early-stage founders, CTOs, and product managers who need an expert sounding board.',
   },
 };
@@ -117,8 +113,8 @@ export default function ServiceDetailPage({ serviceKey }) {
               <span className="svc-meta-val">{svc.timeline}</span>
             </div>
             <div className="svc-meta-pill">
-              <span className="svc-meta-label">Starting from</span>
-              <span className="svc-meta-val">{svc.starting}</span>
+              <span className="svc-meta-label">Pricing</span>
+              <span className="svc-meta-val">Get a quote →</span>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { goHome } from '../utils/nav';
+import WhatsAppButton from './WhatsAppButton';
 
 /**
  * Full-screen page overlay.
@@ -38,6 +39,9 @@ export default function PageOverlay({ title, children }) {
       <main className="page-overlay-content">
         {children}
       </main>
+
+      {/* Floating WhatsApp button */}
+      <WhatsAppButton />
     </div>
   );
 }
