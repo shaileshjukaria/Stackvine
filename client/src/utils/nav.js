@@ -10,3 +10,9 @@ export function navigate(page) {
 export function goHome() {
   navigate(null);
 }
+
+/** Navigate to job application page, storing job context globally */
+export function navigateToApply(job) {
+  window._svApplyJob = job;
+  navigate('apply');
+}
