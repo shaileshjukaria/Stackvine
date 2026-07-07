@@ -81,7 +81,7 @@ const seed = async () => {
     {
       quote: 'Stackvine shipped our MVP in 5 weeks — clean code, zero drama. We raised our first round 3 months later.',
       author: 'Gagan',
-      role: 'Founder @ TransFi',
+      role: 'Team @ TransFi',
       initials: 'G',
       stars: 5,
       order: 1,
