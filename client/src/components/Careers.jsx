@@ -70,133 +70,125 @@ function ApplyModal({ job, onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
 
-        {status === 'success' ? (
-          <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
-            <h3 className="modal-title">Application Sent!</h3>
-            <p style={{ color: 'var(--t2)', fontSize: 14, lineHeight: 1.7 }}>
-              We'll review your application and reach out soon.
-            </p>
-            <button className="btn-primary" style={{ marginTop: 20 }} onClick={onClose}>Close</button>
+        {/* Sticky header with close button */}
+        <div className="modal-header">
+          <div>
+            <h3 className="modal-title">
+              {status === 'success' ? 'Application Sent! 🎉' : `Apply — ${job.title}`}
+            </h3>
+            {status !== 'success' && (
+              <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginTop: 8 }}>
+                <span className="jtag rem">{job.type}</span>
+                <span className="jtag typ">{job.department}</span>
+                <span className="jtag dep">{job.location}</span>
+              </div>
+            )}
           </div>
-        ) : (
-          <form onSubmit={submit}>
-            <h3 className="modal-title">Apply — {job.title}</h3>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
-              <span className="jtag rem">{job.type}</span>
-              <span className="jtag typ">{job.department}</span>
-              <span className="jtag dep">{job.location}</span>
+          <button className="modal-close" onClick={onClose} title="Close (Esc)">✕</button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="modal-body">
+          {status === 'success' ? (
+            <div style={{ textAlign: 'center', padding: '32px 0' }}>
+              <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
+              <p style={{ color: 'var(--t2)', fontSize: 15, lineHeight: 1.75, marginBottom: 28 }}>
+                We'll review your application and reach out soon. Thanks for applying!
+              </p>
+              <button className="btn-primary" onClick={onClose}>Done →</button>
             </div>
+          ) : (
+            <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-            <div className="cfield" style={{ marginBottom: 12 }}>
-              <label>Your Name</label>
-              <input required value={form.name}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                placeholder="Raj Patel" />
-            </div>
+              <div className="cfield">
+                <label>Your Name</label>
+                <input required value={form.name}
+                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="Raj Patel" />
+              </div>
 
-            <div className="cfield" style={{ marginBottom: 12 }}>
-              <label>Email</label>
-              <input type="email" required value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                placeholder="you@example.com" />
-            </div>
+              <div className="cfield">
+                <label>Email</label>
+                <input type="email" required value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="you@example.com" />
+              </div>
 
-            <div className="cfield" style={{ marginBottom: 12 }}>
-              <label>Why Stackvine? <span style={{ color: 'var(--t3)' }}>(optional)</span></label>
-              <textarea rows={3} value={form.message}
-                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                placeholder="Tell us something about yourself..." />
-            </div>
+              <div className="cfield">
+                <label>Why Stackvine? <span style={{ color: 'var(--t3)', fontWeight: 400 }}>(optional)</span></label>
+                <textarea rows={3} value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                  placeholder="Tell us a bit about yourself..." />
+              </div>
 
-            {/* ── Resume Upload ─────────────────────────────── */}
-            <div className="cfield" style={{ marginBottom: 20 }}>
-              <label>
-                Resume / CV{' '}
-                <span style={{ color: 'var(--t3)', fontWeight: 400 }}>(PDF, DOC, DOCX · max 5 MB)</span>
-              </label>
+              {/* Resume Upload */}
+              <div className="cfield">
+                <label>
+                  Resume / CV{' '}
+                  <span style={{ color: 'var(--t3)', fontWeight: 400 }}>(PDF, DOC, DOCX · max 5 MB)</span>
+                </label>
 
-              {resumeFile ? (
-                /* File chosen — show pill with remove button */
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: 12,
-                  background: 'rgba(108,99,255,0.1)',
-                  border: '1px solid rgba(108,99,255,0.35)',
-                  borderRadius: 10, padding: '10px 14px',
-                }}>
-                  <span style={{ fontSize: 22 }}>📄</span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      color: 'var(--t1)', fontSize: 13, fontWeight: 600,
-                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    }}>
-                      {resumeFile.name}
+                {resumeFile ? (
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    background: 'rgba(108,99,255,0.1)',
+                    border: '1px solid rgba(108,99,255,0.35)',
+                    borderRadius: 10, padding: '10px 14px',
+                  }}>
+                    <span style={{ fontSize: 22 }}>📄</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {resumeFile.name}
+                      </div>
+                      <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 2 }}>
+                        {formatBytes(resumeFile.size)}
+                      </div>
                     </div>
-                    <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 2 }}>
-                      {formatBytes(resumeFile.size)}
-                    </div>
+                    <button type="button" onClick={() => setResumeFile(null)}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--t3)', fontSize: 18, padding: 4 }}
+                      title="Remove file">✕</button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setResumeFile(null)}
+                ) : (
+                  <div
+                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={onDrop}
+                    onClick={() => document.getElementById('resume-file-input').click()}
                     style={{
-                      background: 'none', border: 'none', cursor: 'pointer',
-                      color: 'var(--t3)', fontSize: 18, padding: 4, lineHeight: 1,
+                      border: `2px dashed ${dragOver ? 'var(--accent)' : 'var(--border)'}`,
+                      borderRadius: 12, padding: '28px 20px', textAlign: 'center',
+                      cursor: 'pointer',
+                      background: dragOver ? 'rgba(108,99,255,0.06)' : 'transparent',
+                      transition: 'all .2s',
                     }}
-                    title="Remove file"
-                  >✕</button>
-                </div>
-              ) : (
-                /* Drop zone */
-                <div
-                  onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-                  onDragLeave={() => setDragOver(false)}
-                  onDrop={onDrop}
-                  onClick={() => document.getElementById('resume-file-input').click()}
-                  style={{
-                    border: `2px dashed ${dragOver ? 'var(--accent)' : 'var(--border)'}`,
-                    borderRadius: 12,
-                    padding: '28px 20px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    background: dragOver ? 'rgba(108,99,255,0.06)' : 'transparent',
-                    transition: 'all .2s',
-                  }}
-                >
-                  <div style={{ fontSize: 28, marginBottom: 8 }}>📎</div>
-                  <div style={{ color: 'var(--t2)', fontSize: 13, lineHeight: 1.6 }}>
-                    <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Click to upload</span>
-                    {' '}or drag & drop your resume
+                  >
+                    <div style={{ fontSize: 28, marginBottom: 8 }}>📎</div>
+                    <div style={{ color: 'var(--t2)', fontSize: 13, lineHeight: 1.6 }}>
+                      <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Click to upload</span>
+                      {' '}or drag & drop your resume
+                    </div>
+                    <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 4 }}>PDF, DOC, DOCX — max 5 MB</div>
                   </div>
-                  <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 4 }}>
-                    PDF, DOC, DOCX — max 5 MB
-                  </div>
-                </div>
+                )}
+                <input id="resume-file-input" type="file"
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  style={{ display: 'none' }}
+                  onChange={e => handleFile(e.target.files[0])} />
+              </div>
+
+              {status === 'error' && (
+                <p style={{ color: 'var(--red)', fontSize: 13 }}>Something went wrong. Please try again.</p>
               )}
 
-              {/* Hidden file input */}
-              <input
-                id="resume-file-input"
-                type="file"
-                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                style={{ display: 'none' }}
-                onChange={e => handleFile(e.target.files[0])}
-              />
-            </div>
+              <button type="submit" className="cform-submit" disabled={status === 'loading'}
+                style={{ marginTop: 4 }}>
+                {status === 'loading' ? 'Submitting…' : 'Submit Application →'}
+              </button>
+            </form>
+          )}
+        </div>
 
-            {status === 'error' && (
-              <p style={{ color: 'var(--red)', fontSize: 13, marginBottom: 10 }}>
-                Something went wrong. Please try again.
-              </p>
-            )}
-
-            <button type="submit" className="cform-submit" disabled={status === 'loading'}>
-              {status === 'loading' ? 'Submitting…' : 'Submit Application →'}
-            </button>
-          </form>
-        )}
       </div>
     </div>
   );

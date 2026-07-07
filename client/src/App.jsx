@@ -16,6 +16,10 @@ import Cta from './components/Cta';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import { initGA } from './utils/analytics';
+import ServiceDetailPage from './components/pages/ServiceDetailPage';
+import PrivacyPage from './components/pages/PrivacyPage';
+import TermsPage from './components/pages/TermsPage';
+import TrustCentrePage from './components/pages/TrustCentrePage';
 
 const ADMIN_PATH = import.meta.env.VITE_ADMIN_PATH || 'admin';
 const ADMIN_ENABLED = import.meta.env.VITE_ADMIN_ENABLED !== 'false';
@@ -79,8 +83,30 @@ function LandingApp() {
   );
 }
 
+// ── Page Router ───────────────────────────────────────────
+function PageRouter({ page }) {
+  if (!page) return null;
+  // Service pages
+  const services = ['MVP Development', 'AI Integration', 'Full Stack Web Apps', 'Tech Consultation'];
+  if (services.includes(page)) return <ServiceDetailPage serviceKey={page} />;
+  if (page === 'privacy') return <PrivacyPage />;
+  if (page === 'terms') return <TermsPage />;
+  if (page === 'trust') return <TrustCentrePage />;
+  return null;
+}
+
 // ── Root ──────────────────────────────────────────────────
 export default function App() {
+  const [activePage, setActivePage] = useState(null);
+
+  // Listen for navigation events from any component
+  useEffect(() => {
+    const fn = (e) => setActivePage(e.detail);
+    window.addEventListener('sv:page', fn);
+    return () => window.removeEventListener('sv:page', fn);
+  }, []);
+
   if (isAdminRoute()) return <AdminApp />;
+  if (activePage) return <PageRouter page={activePage} />;
   return <LandingApp />;
 }

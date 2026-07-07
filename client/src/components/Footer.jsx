@@ -1,9 +1,12 @@
+import { navigate } from '../utils/nav';
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
+
   const copyEmail = (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText('hello@stackvine.io').then(() => {
+    navigator.clipboard.writeText('hello.stackvine@outlook.com').then(() => {
       const t = document.getElementById('toast');
       if (t) {
         t.textContent = '📋 Email copied!';
@@ -42,23 +45,23 @@ export default function Footer() {
               </a>
               <p className="ftagline">Full stack development studio. We build web products that actually ship.</p>
               <div className="femail">
-                <a href="mailto:hello@stackvine.io" onClick={copyEmail}>hello@stackvine.io</a>
+                <a href="mailto:hello.stackvine@outlook.com" onClick={copyEmail}>hello.stackvine@outlook.com</a>
               </div>
-              <p className="floc">📍Uttarakhand,India · Working globally</p>
+              <p className="floc">📍Uttarakhand, India · Working globally</p>
               <div className="fsocials">
-                <a href="https://github.com" target="_blank" rel="noopener" className="fsl">GH</a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener" className="fsl">in</a>
-                <a href="https://twitter.com" target="_blank" rel="noopener" className="fsl">𝕏</a>
+                <a href="https://github.com/shaileshjukaria" target="_blank" rel="noopener" className="fsl" title="GitHub">GH</a>
+                <a href="https://www.linkedin.com/company/stackvine" target="_blank" rel="noopener" className="fsl" title="LinkedIn">in</a>
+                <a href="mailto:hello.stackvine@outlook.com" className="fsl" title="Email">@</a>
               </div>
             </div>
 
             <div className="fcol">
               <div className="fcol-title">Services</div>
               <ul>
-                <li><a href="#services">MVP Development</a></li>
-                <li><a href="#services">AI Integration</a></li>
-                <li><a href="#services">Full Stack Apps</a></li>
-                <li><a href="#services">Tech Consultation</a></li>
+                <li><a href="#" onClick={e => { e.preventDefault(); navigate('MVP Development'); }}>MVP Development</a></li>
+                <li><a href="#" onClick={e => { e.preventDefault(); navigate('AI Integration'); }}>AI Integration</a></li>
+                <li><a href="#" onClick={e => { e.preventDefault(); navigate('Full Stack Web Apps'); }}>Full Stack Apps</a></li>
+                <li><a href="#" onClick={e => { e.preventDefault(); navigate('Tech Consultation'); }}>Tech Consultation</a></li>
               </ul>
             </div>
 
@@ -77,7 +80,7 @@ export default function Footer() {
               <ul>
                 <li><a href="#cta">Book a Call</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="mailto:hello@stackvine.io">Email Us</a></li>
+                <li><a href="mailto:hello.stackvine@outlook.com">Email Us</a></li>
               </ul>
             </div>
           </div>
@@ -86,8 +89,9 @@ export default function Footer() {
             <span>© {year} <a href="https://shaileshjukaria.netlify.app" target="_blank" rel="noopener noreferrer">Shailesh Jukaria</a>. All rights reserved.</span>
             <div className="fbot-right">
               <div className="fmade">Made with <span className="fheart">♥</span> in India</div>
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
+              <a href="#" onClick={e => { e.preventDefault(); navigate('privacy'); }}>Privacy</a>
+              <a href="#" onClick={e => { e.preventDefault(); navigate('terms'); }}>Terms</a>
+              <a href="#" onClick={e => { e.preventDefault(); navigate('trust'); }}>Trust Centre</a>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useReveal } from '../hooks/useReveal';
+import { navigate } from '../utils/nav';
 
 const services = [
   { icon: '🚀', tag: 'Most Popular', title: 'MVP Development', body: 'Turn your idea into a working product in 4–6 weeks. We scope, design, build, and ship — no fluff, no delays.' },
@@ -20,11 +21,20 @@ export default function Services() {
         </div>
         <div className="cards-grid">
           {services.map((s, i) => (
-            <div className={`scard reveal d${i + 1}`} key={s.title}>
+            <div
+              className={`scard reveal d${i + 1}`}
+              key={s.title}
+              onClick={() => navigate(s.title)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && navigate(s.title)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="card-icon">{s.icon}</div>
               {s.tag && <span className="ctag">{s.tag}</span>}
               <div className="ctitle">{s.title}</div>
               <div className="cbody">{s.body}</div>
+              <div className="scard-link">Learn more →</div>
             </div>
           ))}
         </div>
@@ -32,3 +42,4 @@ export default function Services() {
     </section>
   );
 }
+
