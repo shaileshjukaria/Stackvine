@@ -14,9 +14,9 @@ const seed = async () => {
 
   // ── Admin ────────────────────────────────────────
   await Admin.deleteMany({});
-  const hash = await bcrypt.hash('stackvine123', 12);
-  await Admin.create({ email: 'admin@stackvine.io', passwordHash: hash });
-  console.log('✅ Admin created — admin@stackvine.io / stackvine123');
+  const hash = await bcrypt.hash('Shailesh@Jukaria745', 12);
+  await Admin.create({ email: 'shailesh07jukaria@gmail.com', passwordHash: hash });
+  console.log('✅ Admin created — shailesh07jukaria@gmail.com');
 
   // ── Stats ────────────────────────────────────────
   await Stat.deleteMany({});
@@ -55,49 +55,22 @@ const seed = async () => {
       reversed: false,
     },
     {
-      title: 'PersonalSpace',
-      description: 'A real-time collaborative workspace with live document editing, file uploads to AWS S3, and JWT-secured sessions. Built for remote teams that need speed and reliability.',
-      tags: ['Real-time', 'Cloud', 'WebSockets'],
-      stack: ['React', 'Node.js', 'Socket.io', 'AWS S3', 'JWT'],
+      title: 'Client Project',
+      description: 'Details of this project are kept confidential under NDA. Delivered on time with full client satisfaction.',
+      tags: ['Confidential', 'NDA'],
+      stack: ['MERN Stack'],
       link: '',
-      codeFile: 'personalspace/socket/collab.js',
+      codeFile: 'confidential/index.js',
       codeLines: [
-        "io.on('connection', (socket) => {",
-        "  // join document room",
-        "  socket.on('join-doc', (docId) => {",
-        '    socket.join(docId)',
-        '  })',
-        "  socket.on('doc-change', (delta) => {",
-        '    socket.broadcast.to(delta.docId)',
-        "      .emit('receive-change', delta)",
-        '  })',
-        '})',
+        '// This project is under NDA',
+        '// Details are kept confidential',
+        '',
+        '// Stack: MERN + custom integrations',
+        '// Status: Delivered ✓',
+        '// Client: Satisfied ✓',
       ],
       order: 2,
       reversed: true,
-    },
-    {
-      title: 'Anime TV Tracker',
-      description: 'A full stack entertainment tracker with third-party API integration, user accounts, watchlist management, and episode progress tracking across thousands of titles.',
-      tags: ['Full Stack', 'API Integration'],
-      stack: ['React', 'Node.js', 'MongoDB', 'External API'],
-      link: '',
-      codeFile: 'anime-tracker/hooks/useWatchlist.js',
-      codeLines: [
-        'const useWatchlist = (userId) => {',
-        '  const [list, setList] = useState([])',
-        '  const addAnime = async (anime) => {',
-        '    await api.post(`/watchlist/${userId}`, anime)',
-        '    setList(prev => [...prev, anime])',
-        '  }',
-        '  const updateProgress = (id, ep) =>',
-        '    setList(l => l.map(a => a.id === id',
-        '      ? { ...a, progress: ep } : a))',
-        '  return { list, addAnime, updateProgress }',
-        '}',
-      ],
-      order: 3,
-      reversed: false,
     },
   ]);
   console.log('✅ Projects seeded');
@@ -107,25 +80,25 @@ const seed = async () => {
   await Testimonial.insertMany([
     {
       quote: 'Stackvine shipped our MVP in 5 weeks — clean code, zero drama. We raised our first round 3 months later.',
-      author: 'Aryan Mehta',
-      role: 'Co-founder @ NovaPay',
-      initials: 'AM',
+      author: 'Gagan',
+      role: 'Founder @ TransFi',
+      initials: 'G',
       stars: 5,
       order: 1,
     },
     {
       quote: 'The AI chatbot they built cut our support tickets by 60%. Genuinely impressive technical work, and they kept us in the loop every step.',
-      author: 'Priya Shankar',
-      role: 'CTO @ TalentBridge',
-      initials: 'PS',
+      author: 'Shaurya',
+      role: 'Team @ PW',
+      initials: 'S',
       stars: 5,
       order: 2,
     },
     {
       quote: "Our SaaS was stuck in scope-creep hell before Stackvine. They re-scoped, rebuilt the backend, and launched in 4 weeks. I wish I'd hired them first.",
-      author: 'Daniel O.',
-      role: 'Founder @ Scheduleify',
-      initials: 'DO',
+      author: 'Manas',
+      role: 'Founder @ Propel',
+      initials: 'M',
       stars: 5,
       order: 3,
     },

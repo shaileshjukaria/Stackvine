@@ -79,7 +79,7 @@ export default function Cta() {
 
           <p className="cta-or">— or reach us directly —</p>
           <div className="cta-direct">
-            <a href="mailto:hello@stackvine.io">hello@stackvine.io</a>
+            <a href="mailto:hello.stackvine@outlook.com">hello.stackvine@outlook.com</a>
           </div>
         </div>
       </div>
