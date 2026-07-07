@@ -3,202 +3,212 @@ import api from '../api/axios';
 import { useReveal } from '../hooks/useReveal';
 import { trackFormSubmit, trackEvent } from '../utils/analytics';
 
+/* ── Apply Modal ──────────────────────────────────────────── */
 function ApplyModal({ job, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [resumeFile, setResumeFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
 
-  // Close on Escape key
+  /* Close on Escape, lock body scroll */
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
   }, [onClose]);
 
-  // Handle file selection (click or drag-drop)
+  /* File validation */
   const handleFile = (file) => {
     if (!file) return;
-    const allowed = ['application/pdf', 'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    if (!allowed.includes(file.type)) {
-      alert('Please upload a PDF, DOC, or DOCX file.');
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File is too large. Maximum size is 5 MB.');
-      return;
-    }
+    const allowed = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ];
+    if (!allowed.includes(file.type)) { alert('Please upload a PDF, DOC, or DOCX file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File too large — max 5 MB.'); return; }
     setResumeFile(file);
   };
 
-  const onDrop = (e) => {
-    e.preventDefault();
-    setDragOver(false);
-    handleFile(e.dataTransfer.files[0]);
-  };
+  const onDrop = (e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files[0]); };
+  const fmt = (b) => b < 1024 * 1024 ? `${(b / 1024).toFixed(0)} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`;
 
+  /* Submit */
   const submit = async (e) => {
     e.preventDefault();
     setStatus('loading');
     try {
-      // Build FormData to send file + text fields together
       const fd = new FormData();
       fd.append('name', form.name);
       fd.append('email', form.email);
       fd.append('role', job.title);
       fd.append('message', form.message);
       if (resumeFile) fd.append('resume', resumeFile);
-
-      // Send as multipart/form-data (axios handles Content-Type automatically)
-      await api.post('/careers/apply', fd, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
+      await api.post('/careers/apply', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       setStatus('success');
       trackFormSubmit('job_application');
-    } catch (err) {
+    } catch {
       setStatus('error');
       trackEvent('form_error', { event_label: 'job_application' });
     }
   };
 
-  const formatBytes = (b) => b < 1024 * 1024
-    ? `${(b / 1024).toFixed(0)} KB`
-    : `${(b / 1024 / 1024).toFixed(1)} MB`;
-
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
+    <div className="am-overlay" onClick={onClose}>
+      <div className="am-box" onClick={(e) => e.stopPropagation()}>
 
-        {/* Sticky header with close button */}
-        <div className="modal-header">
+        {/* ── Header ── */}
+        <div className="am-header">
           <div>
-            <h3 className="modal-title">
-              {status === 'success' ? 'Application Sent! 🎉' : `Apply — ${job.title}`}
-            </h3>
-            {status !== 'success' && (
-              <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginTop: 8 }}>
-                <span className="jtag rem">{job.type}</span>
-                <span className="jtag typ">{job.department}</span>
-                <span className="jtag dep">{job.location}</span>
-              </div>
-            )}
+            <div className="am-eyebrow">
+              <span className="am-tag rem">{job.type}</span>
+              <span className="am-tag typ">{job.department}</span>
+              <span className="am-tag dep">{job.location}</span>
+            </div>
+            <h2 className="am-title">
+              {status === 'success' ? 'Application Sent! 🎉' : job.title}
+            </h2>
           </div>
-          <button className="modal-close" onClick={onClose} title="Close (Esc)">✕</button>
+          <button className="am-close" onClick={onClose} title="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-        {/* Scrollable body */}
-        <div className="modal-body">
+        {/* ── Body ── */}
+        <div className="am-body">
+
+          {/* Success state */}
           {status === 'success' ? (
-            <div style={{ textAlign: 'center', padding: '32px 0' }}>
-              <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
-              <p style={{ color: 'var(--t2)', fontSize: 15, lineHeight: 1.75, marginBottom: 28 }}>
-                We'll review your application and reach out soon. Thanks for applying!
+            <div className="am-success">
+              <div className="am-success-icon">🎉</div>
+              <p className="am-success-text">
+                We've received your application and will be in touch soon. Thanks for your interest in Stackvine!
               </p>
-              <button className="btn-primary" onClick={onClose}>Done →</button>
+              <button className="am-submit" onClick={onClose}>Close</button>
             </div>
           ) : (
-            <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <form onSubmit={submit} className="am-form">
 
-              <div className="cfield">
-                <label>Your Name</label>
-                <input required value={form.name}
-                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                  placeholder="Raj Patel" />
+              {/* Name */}
+              <div className="am-field">
+                <label className="am-label">Full Name</label>
+                <input
+                  className="am-input"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="Shailesh Jukaria"
+                />
               </div>
 
-              <div className="cfield">
-                <label>Email</label>
-                <input type="email" required value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  placeholder="you@example.com" />
+              {/* Email */}
+              <div className="am-field">
+                <label className="am-label">Email Address</label>
+                <input
+                  className="am-input"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="you@example.com"
+                />
               </div>
 
-              <div className="cfield">
-                <label>Why Stackvine? <span style={{ color: 'var(--t3)', fontWeight: 400 }}>(optional)</span></label>
-                <textarea rows={3} value={form.message}
-                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  placeholder="Tell us a bit about yourself..." />
+              {/* Message */}
+              <div className="am-field">
+                <label className="am-label">
+                  Why Stackvine?
+                  <span className="am-optional"> — optional</span>
+                </label>
+                <textarea
+                  className="am-input am-textarea"
+                  rows={3}
+                  value={form.message}
+                  onChange={(e) => setForm(f => ({ ...f, message: e.target.value }))}
+                  placeholder="Tell us a bit about yourself and why you want to join..."
+                />
               </div>
 
               {/* Resume Upload */}
-              <div className="cfield">
-                <label>
-                  Resume / CV{' '}
-                  <span style={{ color: 'var(--t3)', fontWeight: 400 }}>(PDF, DOC, DOCX · max 5 MB)</span>
+              <div className="am-field">
+                <label className="am-label">
+                  Resume / CV
+                  <span className="am-optional"> — PDF, DOC, DOCX · max 5 MB</span>
                 </label>
 
                 {resumeFile ? (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    background: 'rgba(108,99,255,0.1)',
-                    border: '1px solid rgba(108,99,255,0.35)',
-                    borderRadius: 10, padding: '10px 14px',
-                  }}>
-                    <span style={{ fontSize: 22 }}>📄</span>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {resumeFile.name}
-                      </div>
-                      <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 2 }}>
-                        {formatBytes(resumeFile.size)}
-                      </div>
+                  /* File selected pill */
+                  <div className="am-file-pill">
+                    <span className="am-file-icon">📄</span>
+                    <div className="am-file-info">
+                      <div className="am-file-name">{resumeFile.name}</div>
+                      <div className="am-file-size">{fmt(resumeFile.size)}</div>
                     </div>
-                    <button type="button" onClick={() => setResumeFile(null)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--t3)', fontSize: 18, padding: 4 }}
-                      title="Remove file">✕</button>
+                    <button type="button" className="am-file-remove" onClick={() => setResumeFile(null)} title="Remove">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
                   </div>
                 ) : (
+                  /* Drop zone */
                   <div
-                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                    className={`am-dropzone${dragOver ? ' drag' : ''}`}
+                    onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                     onDragLeave={() => setDragOver(false)}
                     onDrop={onDrop}
-                    onClick={() => document.getElementById('resume-file-input').click()}
-                    style={{
-                      border: `2px dashed ${dragOver ? 'var(--accent)' : 'var(--border)'}`,
-                      borderRadius: 12, padding: '28px 20px', textAlign: 'center',
-                      cursor: 'pointer',
-                      background: dragOver ? 'rgba(108,99,255,0.06)' : 'transparent',
-                      transition: 'all .2s',
-                    }}
+                    onClick={() => document.getElementById('am-file-input').click()}
                   >
-                    <div style={{ fontSize: 28, marginBottom: 8 }}>📎</div>
-                    <div style={{ color: 'var(--t2)', fontSize: 13, lineHeight: 1.6 }}>
-                      <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Click to upload</span>
-                      {' '}or drag & drop your resume
+                    <div className="am-drop-icon">📎</div>
+                    <div className="am-drop-text">
+                      <span className="am-drop-cta">Click to upload</span> or drag & drop
                     </div>
-                    <div style={{ color: 'var(--t3)', fontSize: 11, marginTop: 4 }}>PDF, DOC, DOCX — max 5 MB</div>
+                    <div className="am-drop-hint">PDF, DOC, DOCX — max 5 MB</div>
                   </div>
                 )}
-                <input id="resume-file-input" type="file"
-                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                <input
+                  id="am-file-input"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
                   style={{ display: 'none' }}
-                  onChange={e => handleFile(e.target.files[0])} />
+                  onChange={(e) => handleFile(e.target.files[0])}
+                />
               </div>
 
+              {/* Error */}
               {status === 'error' && (
-                <p style={{ color: 'var(--red)', fontSize: 13 }}>Something went wrong. Please try again.</p>
+                <div className="am-error">⚠️ Something went wrong. Please try again.</div>
               )}
 
-              <button type="submit" className="cform-submit" disabled={status === 'loading'}
-                style={{ marginTop: 4 }}>
-                {status === 'loading' ? 'Submitting…' : 'Submit Application →'}
+              {/* Submit */}
+              <button type="submit" className="am-submit" disabled={status === 'loading'}>
+                {status === 'loading' ? (
+                  <><span className="am-spinner" />Submitting…</>
+                ) : (
+                  'Submit Application →'
+                )}
               </button>
+
             </form>
           )}
         </div>
-
       </div>
     </div>
   );
 }
 
+/* ── Careers Section ──────────────────────────────────────── */
 export default function Careers() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
-
   const ref = useReveal([jobs]);
 
   useEffect(() => {
@@ -215,9 +225,7 @@ export default function Careers() {
           <div className="reveal">
             <div className="eyebrow">Join the Team</div>
             <h2 className="section-heading">Open Roles</h2>
-            <p className="section-sub">
-              Remote-first. No red tape. Just shipping great products with a great team.
-            </p>
+            <p className="section-sub">Remote-first. No red tape. Just shipping great products with a great team.</p>
           </div>
         </div>
 
@@ -241,13 +249,13 @@ export default function Careers() {
             padding: '48px 32px', textAlign: 'center',
           }}>
             <div style={{ fontSize: 40, marginBottom: 14 }}>🔍</div>
-            <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 700, marginBottom: 10, color: 'var(--t1)' }}>
+            <h3 style={{ fontFamily: 'Syne,sans-serif', fontSize: 20, fontWeight: 700, marginBottom: 10 }}>
               No Open Roles Right Now
             </h3>
             <p style={{ color: 'var(--t2)', fontSize: 14, lineHeight: 1.75, maxWidth: 400, margin: '0 auto 20px' }}>
-              We're not actively hiring at the moment, but we're always interested in hearing from talented people.
+              We're not actively hiring, but we're always interested in talented people.
             </p>
-            <a href="mailto:careers@stackvine.io" className="btn-outline" style={{ display: 'inline-flex' }}>
+            <a href="mailto:hello.stackvine@outlook.com" className="btn-outline" style={{ display: 'inline-flex' }}>
               Send us your resume →
             </a>
           </div>
@@ -281,7 +289,7 @@ export default function Careers() {
 
         <p className="careers-note" style={{ marginTop: 26 }}>
           Don't see your role?{' '}
-          <a href="mailto:careers@stackvine.io">Email us</a>
+          <a href="mailto:hello.stackvine@outlook.com">Email us</a>
           {' '}— we're always open to great people.
         </p>
       </div>
