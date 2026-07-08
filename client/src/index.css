@@ -2758,113 +2758,142 @@ footer {
   }
 }
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+
+/* Tablet / large phone (960px) */
 @media(max-width:960px) {
+  /* Navbar */
+  .nav-links,.nav-status,.btn-nav { display:none }
+  .hamburger { display:flex }
 
-  .nav-links,
-  .nav-status,
-  .btn-nav {
-    display: none
-  }
+  /* Section padding (120px is too much on tablet) */
+  #process,#about,#testimonials,#work,.section-pad { padding:72px 0 }
+  #stats { padding:56px 0 }
+  #careers,#faq { padding:72px 0 }
+  #cta { padding:80px 0 }
+  #hero { padding:100px 20px 60px }
 
-  .hamburger {
-    display: flex
-  }
+  /* Grids */
+  .cards-grid,.tgrid { grid-template-columns:1fr }
 
-  .cards-grid,
-  .tgrid {
-    grid-template-columns: 1fr
-  }
+  /* Process */
+  .proc-steps { grid-template-columns:1fr; gap:38px }
+  .proc-steps::before { display:none }
+  .pstep { padding:0 }
 
-  .proc-steps {
-    grid-template-columns: 1fr;
-    gap: 38px
-  }
+  /* Work */
+  .pcard { grid-template-columns:1fr; gap:28px }
+  .pcard.rev .ptext,.pcard.rev .pvisual { order:0 }
 
-  .proc-steps::before {
-    display: none
-  }
+  /* About */
+  .about-grid { grid-template-columns:1fr }
 
-  .pstep {
-    padding: 0
-  }
+  /* Stats */
+  .stats-grid { grid-template-columns:repeat(2,1fr) }
+  .sitem:nth-child(2)::after { display:none }
 
-  .pcard {
-    grid-template-columns: 1fr;
-    gap: 28px
-  }
+  /* Footer */
+  .footer-top { grid-template-columns:1fr 1fr; gap:36px }
 
-  .pcard.rev .ptext,
-  .pcard.rev .pvisual {
-    order: 0
-  }
+  /* Hero */
+  .hero-code { display:none }
 
-  .about-grid {
-    grid-template-columns: 1fr
-  }
+  /* FAQ */
+  .faq-grid { grid-template-columns:1fr }
 
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr)
-  }
+  /* CTA */
+  .cform-row { grid-template-columns:1fr }
 
-  .sitem:nth-child(2)::after {
-    display: none
-  }
+  /* Careers */
+  .careers-hdr { flex-direction:column }
 
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px
-  }
-
-  .hero-code {
-    display: none
-  }
-
-  .faq-grid {
-    grid-template-columns: 1fr
-  }
-
-  .cform-row {
-    grid-template-columns: 1fr
-  }
-
-  .careers-hdr {
-    flex-direction: column
-  }
-
-  .admin-sidebar {
-    width: 200px
-  }
+  /* Admin */
+  .admin-sidebar { width:200px }
 }
 
+/* Small phone (600px) */
 @media(max-width:600px) {
-  .stats-grid {
-    grid-template-columns: 1fr 1fr
-  }
+  /* Section padding */
+  #process,#about,#testimonials,#work,.section-pad { padding:56px 0 }
+  #stats { padding:40px 0 }
+  #careers,#faq { padding:56px 0 }
+  #cta { padding:60px 0 }
+  #hero { padding:88px 16px 48px }
 
-  .footer-top {
-    grid-template-columns: 1fr
-  }
+  /* Container */
+  .container { padding:0 18px }
 
-  .fbot {
-    flex-direction: column;
-    text-align: center
-  }
+  /* Stats grid stays 2 col */
+  .stats-grid { grid-template-columns:1fr 1fr }
 
-  .admin-layout {
-    flex-direction: column
-  }
+  /* Footer */
+  .footer-top { grid-template-columns:1fr }
+  .fbot { flex-direction:column; text-align:center }
 
-  .admin-sidebar {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 16px
-  }
+  /* Hero CTAs stack vertically */
+  .hero-ctas { flex-direction:column; align-items:stretch; max-width:320px; margin-left:auto; margin-right:auto }
+  .hero-ctas .btn-primary,.hero-ctas .btn-outline { justify-content:center; width:100%; text-align:center }
 
-  .admin-content {
-    padding: 20px
-  }
+  /* Admin table scrollable */
+  .admin-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch }
+
+  /* Admin layout */
+  .admin-layout { flex-direction:column }
+  .admin-sidebar { width:100%; flex-direction:row; overflow-x:auto; padding:16px }
+  .admin-content { padding:20px }
+  .admin-card { flex-wrap:wrap }
+  .admin-actions { flex-wrap:wrap }
+}
+
+/* Extra small phone (480px) */
+@media(max-width:480px) {
+  /* Section padding minimum */
+  #process,#about,#testimonials,#work,.section-pad { padding:48px 0 }
+  #careers,#faq { padding:48px 0 }
+  #cta { padding:48px 0 }
+  #hero { padding:80px 14px 40px }
+
+  /* Container */
+  .container { padding:0 14px }
+
+  /* Section text */
+  .section-sub { font-size:15px; line-height:1.65 }
+
+  /* Hero */
+  .hero-headline { letter-spacing:-1.5px }
+  .hero-ctas { max-width:260px }
+  .hero-eyebrow { font-size:10px }
+
+  /* Services */
+  .scard { padding:24px 20px }
+
+  /* Stats */
+  .snum { font-size:clamp(32px,10vw,48px) }
+
+  /* Careers */
+  .jcard { padding:18px 16px; gap:12px }
+  .jtitle { font-size:16px }
+  .careers-note { font-size:11px }
+
+  /* FAQ */
+  .fq { font-size:15px }
+
+  /* Footer */
+  .footer-top { gap:28px }
+
+  /* Admin */
+  .admin-table th,.admin-table td { padding:9px 10px; font-size:12px }
+  .admin-card { flex-direction:column; align-items:flex-start }
+  .admin-title { font-size:20px }
+  .admin-content { padding:14px }
+  .admin-header { flex-wrap:wrap; gap:10px }
+  .admin-logo { margin-bottom:16px }
+
+  /* Apply page */
+  .apply-page { padding:20px 0 60px }
+  .apply-review-section { padding:14px 16px }
+  .apply-nav { gap:10px }
+  .apply-stage-title { font-size:19px }
 }
 
 @media(prefers-reduced-motion:reduce) {
