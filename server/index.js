@@ -83,6 +83,7 @@ app.use('/api/admin/applications', require('./routes/admin/applications'));
 app.use('/api/admin/projects', require('./routes/admin/projects'));
 app.use('/api/admin/jobs', require('./routes/admin/jobs'));
 app.use('/api/admin/stats', require('./routes/admin/stats'));
+app.use('/api/admin/testimonials', require('./routes/admin/testimonials'));
 
 // ── Health check ──────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({
