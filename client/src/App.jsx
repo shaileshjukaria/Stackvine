@@ -20,6 +20,7 @@ import ServiceDetailPage from './components/pages/ServiceDetailPage';
 import PrivacyPage from './components/pages/PrivacyPage';
 import TermsPage from './components/pages/TermsPage';
 import TrustCentrePage from './components/pages/TrustCentrePage';
+import ApplyPage from './components/pages/ApplyPage';
 
 const ADMIN_PATH = import.meta.env.VITE_ADMIN_PATH || 'admin';
 const ADMIN_ENABLED = import.meta.env.VITE_ADMIN_ENABLED !== 'false';
@@ -92,6 +93,7 @@ function PageRouter({ page }) {
   if (page === 'privacy') return <PrivacyPage />;
   if (page === 'terms') return <TermsPage />;
   if (page === 'trust') return <TrustCentrePage />;
+  if (page === 'apply') return <ApplyPage />;
   return null;
 }
 
